@@ -12,13 +12,8 @@ x_data = [[4, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 3],
 y_data = [[0, 4, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 3],
 	[0, 1, 1, 1, 1, 2, 1, 0, 1, 1, 1, 2, 2, 4, 1, 3]]
 
-
-# x_input = tf.constant( x_data , dtype=tf.int32 )
-# y_ground = tf.constant( y_data , dtype=tf.int32 )
-
 x_input = tf.placeholder( shape=[None,size] , dtype=tf.int32 )
 y_ground = tf.placeholder( shape=[None,size] , dtype=tf.int32 )
-
 
 embedding_vector = tf.Variable( tf.truncated_normal( [index_max, features] , dtype=tf.float32 ) )
 embedding_vector_3_ranks = tf.reshape(embedding_vector, [1,index_max, features])
@@ -30,7 +25,7 @@ def conv_layer( x , layers_in=features , layers_out=features ):
   w = tf.Variable( tf.truncated_normal([3,3,layers_in, layers_out], stddev=0.1, dtype=tf.float32) )
   b = tf.Variable( tf.constant(0.1, shape=[layers_out], dtype=tf.float32) )
   h = tf.nn.conv2d( x, w, strides=[1, 1, 1, 1], padding='SAME' ) + b
-  return h # tf.nn.relu( h )
+  return h
 
 hidden = tf.reshape( x_embedding, [-1,width,width,features] )
 hidden = tf.nn.relu( conv_layer( hidden ) )
